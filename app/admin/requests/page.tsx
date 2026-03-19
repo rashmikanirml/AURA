@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { AdminApprovalActions } from "@/app/components/admin-approval-actions";
+import { ProfileOverviewCard } from "@/app/components/profile-overview-card";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
@@ -14,6 +15,17 @@ export default async function AdminRequestsPage() {
   if (session.user.role !== "ADMIN") {
     redirect("/");
   }
+
+  const profile = await prisma.user.findUnique({
+    where: {
+      id: session.user.id,
+    },
+    select: {
+      name: true,
+      email: true,
+      createdAt: true,
+    },
+  });
 
   const pendingVehicles = await prisma.vehicle.findMany({
     where: {
@@ -38,6 +50,13 @@ export default async function AdminRequestsPage() {
         <h1 className="text-3xl font-bold tracking-tight">Admin Review Queue</h1>
         <p className="text-sm text-muted">Approve user listing requests before publishing.</p>
       </div>
+
+      <ProfileOverviewCard
+        name={profile?.name ?? session.user.name ?? "Admin Profile"}
+        email={profile?.email ?? session.user.email}
+        joinedAt={profile?.createdAt}
+        roleLabel="Admin profile"
+      />
 
       {!pendingVehicles.length ? (
         <div className="rounded-xl border border-dashed border-border bg-white p-6 text-sm text-muted">

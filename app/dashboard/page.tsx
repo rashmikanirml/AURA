@@ -1,8 +1,8 @@
 import { getServerSession } from "next-auth";
-import { CalendarDays, Satellite } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { DashboardVehicleActions } from "@/app/components/dashboard-vehicle-actions";
+import { ProfileOverviewCard } from "@/app/components/profile-overview-card";
 import { Button } from "@/app/components/ui/button";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -16,9 +16,6 @@ const statusLabel: Record<"PENDING" | "APPROVED" | "REJECTED", string> = {
   APPROVED: "Approved",
   REJECTED: "Rejected",
 };
-
-const SATELLITE_PROFILE_IMAGE =
-  "https://images.unsplash.com/photo-1446776877081-d282a0f896e2?auto=format&fit=crop&w=400&q=80";
 
 export default async function DashboardPage({ searchParams }: DashboardPageProps) {
   const session = await getServerSession(authOptions);
@@ -79,31 +76,12 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
         </Link>
       </div>
 
-      <article className="rounded-xl border border-border bg-white p-4 shadow-sm">
-        <div className="flex items-center gap-4">
-          <img
-            src={SATELLITE_PROFILE_IMAGE}
-            alt="Satellite profile"
-            className="h-16 w-16 rounded-full border border-border object-cover"
-          />
-          <div className="min-w-0 flex-1">
-            <h2 className="truncate text-lg font-semibold text-foreground">
-              {profile?.name ?? session.user.name ?? "Your Profile"}
-            </h2>
-            <p className="truncate text-sm text-muted">{profile?.email ?? session.user.email}</p>
-            <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-muted">
-              <span className="inline-flex items-center gap-1">
-                <CalendarDays className="h-3.5 w-3.5" />
-                Joined {new Date(profile?.createdAt ?? Date.now()).toLocaleDateString()}
-              </span>
-              <span className="inline-flex items-center gap-1">
-                <Satellite className="h-3.5 w-3.5" />
-                Satellite profile theme
-              </span>
-            </div>
-          </div>
-        </div>
-      </article>
+      <ProfileOverviewCard
+        name={profile?.name ?? session.user.name ?? "Your Profile"}
+        email={profile?.email ?? session.user.email}
+        joinedAt={profile?.createdAt}
+        roleLabel="User profile"
+      />
 
       {resolvedSearchParams.submitted === "1" ? (
         <div className="rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-900">
