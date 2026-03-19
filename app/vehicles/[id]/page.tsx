@@ -1,4 +1,5 @@
 import { getServerSession } from "next-auth";
+import { CalendarDays, Satellite } from "lucide-react";
 import { notFound } from "next/navigation";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -6,6 +7,9 @@ import { prisma } from "@/lib/prisma";
 type PageProps = {
   params: Promise<{ id: string }> | { id: string };
 };
+
+const SATELLITE_PROFILE_IMAGE =
+  "https://images.unsplash.com/photo-1446776877081-d282a0f896e2?auto=format&fit=crop&w=400&q=80";
 
 export default async function VehicleDetailsPage({ params }: PageProps) {
   const session = await getServerSession(authOptions);
@@ -19,6 +23,7 @@ export default async function VehicleDetailsPage({ params }: PageProps) {
         select: {
           name: true,
           email: true,
+          createdAt: true,
         },
       },
     },
@@ -76,8 +81,23 @@ export default async function VehicleDetailsPage({ params }: PageProps) {
 
       <aside className="h-fit rounded-xl border border-border bg-white p-5 shadow-sm">
         <h2 className="text-lg font-semibold">Seller Info</h2>
+        <img
+          src={SATELLITE_PROFILE_IMAGE}
+          alt="Seller satellite profile"
+          className="mt-3 h-20 w-20 rounded-full border border-border object-cover"
+        />
         <p className="mt-3 text-sm text-foreground">{vehicle.user?.name ?? "Private Seller"}</p>
         <p className="text-sm text-muted">{vehicle.user?.email}</p>
+        <div className="mt-3 space-y-2 text-xs text-muted">
+          <p className="inline-flex items-center gap-1">
+            <CalendarDays className="h-3.5 w-3.5" />
+            Joined {new Date(vehicle.user?.createdAt ?? Date.now()).toLocaleDateString()}
+          </p>
+          <p className="inline-flex items-center gap-1">
+            <Satellite className="h-3.5 w-3.5" />
+            Satellite profile image
+          </p>
+        </div>
       </aside>
     </section>
   );
