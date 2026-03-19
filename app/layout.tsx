@@ -30,12 +30,27 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <Providers>
-          <Navbar />
-          <main className="mx-auto flex w-full max-w-6xl flex-1 px-4 py-8 sm:px-6 lg:px-8">
-            {children}
-          </main>
-        </Providers>
+        <div className="bubble-background" aria-hidden="true">
+          <span className="bubble bubble-1" />
+          <span className="bubble bubble-2" />
+          <span className="bubble bubble-3" />
+          <span className="bubble bubble-4" />
+          <span className="bubble bubble-5" />
+          <span className="bubble bubble-6" />
+          <span className="bubble bubble-7" />
+          <span className="bubble bubble-8" />
+          <span className="bubble bubble-9" />
+          <span className="bubble bubble-10" />
+        </div>
+
+        <div className="relative z-10 flex min-h-full flex-col">
+          <Providers>
+            <Navbar />
+            <main className="mx-auto flex w-full max-w-6xl flex-1 px-4 py-8 sm:px-6 lg:px-8">
+              {children}
+            </main>
+          </Providers>
+        </div>
       </body>
     </html>
   );
