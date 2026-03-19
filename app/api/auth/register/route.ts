@@ -7,6 +7,7 @@ const registerSchema = z.object({
   name: z.string().min(2).max(80),
   email: z.string().email(),
   password: z.string().min(6).max(64),
+  adminInviteCode: z.string().min(6).max(128).optional(),
 });
 
 export async function POST(request: Request) {
@@ -33,17 +34,30 @@ export async function POST(request: Request) {
     }
 
     const hashedPassword = await bcrypt.hash(parsed.data.password, 10);
+    const providedAdminCode = parsed.data.adminInviteCode?.trim();
+    const configuredAdminCode = process.env.ADMIN_INVITE_CODE?.trim();
+
+    if (providedAdminCode && (!configuredAdminCode || providedAdminCode !== configuredAdminCode)) {
+      return NextResponse.json(
+        { error: "Invalid admin invite code." },
+        { status: 403 },
+      );
+    }
+
+    const role = providedAdminCode ? "ADMIN" : "USER";
 
     const user = await prisma.user.create({
       data: {
         name: parsed.data.name,
         email: parsed.data.email,
         password: hashedPassword,
+        role,
       },
       select: {
         id: true,
         name: true,
         email: true,
+        role: true,
       },
     });
 

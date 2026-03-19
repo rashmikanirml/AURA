@@ -9,6 +9,7 @@ export function RegisterForm() {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [isAdminRegistration, setIsAdminRegistration] = useState(false);
 
   async function handleSubmit(formData: FormData) {
     setError(null);
@@ -18,6 +19,9 @@ export function RegisterForm() {
       name: String(formData.get("name") ?? ""),
       email: String(formData.get("email") ?? ""),
       password: String(formData.get("password") ?? ""),
+      adminInviteCode: isAdminRegistration
+        ? String(formData.get("adminInviteCode") ?? "")
+        : undefined,
     };
 
     const response = await fetch("/api/auth/register", {
@@ -29,7 +33,8 @@ export function RegisterForm() {
     setLoading(false);
 
     if (!response.ok) {
-      setError("Unable to register. Email may already be in use.");
+      const data = (await response.json().catch(() => ({}))) as { error?: string };
+      setError(data.error ?? "Unable to register. Email may already be in use.");
       return;
     }
 
@@ -42,6 +47,22 @@ export function RegisterForm() {
       <Input name="name" required placeholder="Full name" />
       <Input name="email" type="email" required placeholder="Email" />
       <Input name="password" type="password" minLength={6} required placeholder="Password" />
+      <label className="flex items-center gap-2 text-sm text-muted">
+        <input
+          type="checkbox"
+          checked={isAdminRegistration}
+          onChange={(event) => setIsAdminRegistration(event.target.checked)}
+        />
+        Register as admin (requires invite code)
+      </label>
+      {isAdminRegistration ? (
+        <Input
+          name="adminInviteCode"
+          required
+          minLength={6}
+          placeholder="Admin invite code"
+        />
+      ) : null}
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
       <Button type="submit" disabled={loading}>
         {loading ? "Creating account..." : "Register"}

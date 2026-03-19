@@ -37,6 +37,7 @@ Copy `.env.example` to `.env` and update:
 - `DATABASE_URL`
 - `NEXTAUTH_URL`
 - `NEXTAUTH_SECRET`
+- `ADMIN_INVITE_CODE` (only needed if you want admin registration from UI)
 
 ## Run Locally
 
