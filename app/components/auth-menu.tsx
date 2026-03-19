@@ -26,6 +26,14 @@ export function AuthMenu() {
 
   return (
     <div className="flex items-center gap-3">
+      {session.user.role === "ADMIN" ? (
+        <Link
+          href="/admin/requests"
+          className="text-sm font-medium text-muted hover:text-foreground"
+        >
+          Admin Queue
+        </Link>
+      ) : null}
       <Link href="/dashboard" className="text-sm font-medium text-muted hover:text-foreground">
         {session.user.name ?? "Profile"}
       </Link>

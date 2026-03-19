@@ -8,6 +8,8 @@ export type VehicleWithRelations = {
   mileage: number;
   location: string;
   description: string;
+  status?: "PENDING" | "APPROVED" | "REJECTED";
+  approvedAt?: string | null;
   createdAt: string;
   images: { id: string; imageUrl: string }[];
   user?: {

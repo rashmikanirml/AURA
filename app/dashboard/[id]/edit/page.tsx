@@ -44,6 +44,7 @@ export default async function EditVehiclePage({ params }: PageProps) {
         vehicle={{
           ...vehicle,
           createdAt: vehicle.createdAt.toISOString(),
+          approvedAt: vehicle.approvedAt ? vehicle.approvedAt.toISOString() : null,
         }}
       />
     </section>

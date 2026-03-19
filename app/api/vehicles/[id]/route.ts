@@ -30,6 +30,7 @@ const updateSchema = z.object({
 
 export async function GET(_: Request, context: RouteContext) {
   const { id } = await resolveParams(context.params);
+  const session = await getServerSession(authOptions);
 
   const vehicle = await prisma.vehicle.findUnique({
     where: { id },
@@ -46,6 +47,13 @@ export async function GET(_: Request, context: RouteContext) {
   });
 
   if (!vehicle) {
+    return NextResponse.json({ error: "Vehicle not found" }, { status: 404 });
+  }
+
+  const isOwner = session?.user?.id === vehicle.userId;
+  const isAdmin = session?.user?.role === "ADMIN";
+
+  if (vehicle.status !== "APPROVED" && !isOwner && !isAdmin) {
     return NextResponse.json({ error: "Vehicle not found" }, { status: 404 });
   }
 
@@ -91,6 +99,8 @@ export async function PATCH(request: Request, context: RouteContext) {
         mileage: parsed.data.mileage,
         location: parsed.data.location,
         description: parsed.data.description,
+        status: "PENDING",
+        approvedAt: null,
         images: {
           deleteMany: {},
           create: parsed.data.imageUrls.map((imageUrl) => ({ imageUrl })),

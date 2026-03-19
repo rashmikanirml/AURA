@@ -44,8 +44,8 @@ export function SellForm() {
       return;
     }
 
-    const created = (await response.json()) as { id: string };
-    router.push(`/vehicles/${created.id}`);
+    await response.json();
+    router.push("/dashboard?submitted=1");
     router.refresh();
   }
 
@@ -56,7 +56,7 @@ export function SellForm() {
     >
       <h1 className="text-2xl font-semibold tracking-tight">Sell Your Vehicle</h1>
       <p className="text-sm text-muted">
-        Post your listing with all key specs and image links.
+        Submit your listing for admin review before it goes live.
       </p>
 
       <Input name="title" required placeholder="Title (e.g. Toyota Corolla 2022)" />
@@ -84,7 +84,7 @@ export function SellForm() {
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
 
       <Button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? "Submitting..." : "Create Listing"}
+        {isSubmitting ? "Submitting..." : "Submit for Approval"}
       </Button>
     </form>
   );

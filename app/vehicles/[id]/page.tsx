@@ -1,4 +1,6 @@
+import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";
+import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 type PageProps = {
@@ -6,6 +8,7 @@ type PageProps = {
 };
 
 export default async function VehicleDetailsPage({ params }: PageProps) {
+  const session = await getServerSession(authOptions);
   const resolvedParams = "then" in params ? await params : params;
 
   const vehicle = await prisma.vehicle.findUnique({
@@ -22,6 +25,13 @@ export default async function VehicleDetailsPage({ params }: PageProps) {
   });
 
   if (!vehicle) {
+    notFound();
+  }
+
+  const isOwner = session?.user?.id === vehicle.userId;
+  const isAdmin = session?.user?.role === "ADMIN";
+
+  if (vehicle.status !== "APPROVED" && !isOwner && !isAdmin) {
     notFound();
   }
 

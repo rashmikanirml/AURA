@@ -35,6 +35,7 @@ export async function GET(request: Request) {
 
   const vehicles = await prisma.vehicle.findMany({
     where: {
+      status: "APPROVED",
       brand: brand ? { contains: brand, mode: "insensitive" } : undefined,
       model: model ? { contains: model, mode: "insensitive" } : undefined,
       location: location
@@ -91,6 +92,7 @@ export async function POST(request: Request) {
         mileage: parsed.data.mileage,
         location: parsed.data.location,
         description: parsed.data.description,
+        status: "PENDING",
         userId: session.user.id,
         images: {
           create: parsed.data.imageUrls.map((imageUrl) => ({ imageUrl })),
@@ -101,7 +103,13 @@ export async function POST(request: Request) {
       },
     });
 
-    return NextResponse.json(vehicle, { status: 201 });
+    return NextResponse.json(
+      {
+        ...vehicle,
+        message: "Your listing request was submitted and is pending admin approval.",
+      },
+      { status: 201 },
+    );
   } catch {
     return NextResponse.json(
       { error: "Something went wrong while creating this listing." },

@@ -7,16 +7,29 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum ApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 model User {
   id        String    @id @default(cuid())
   name      String?
   email     String    @unique
   password  String?
+  role      UserRole  @default(USER)
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   vehicles  Vehicle[]
   accounts  Account[]
   sessions  Session[]
+  notifications Notification[]
 }
 
 model Vehicle {
@@ -29,6 +42,8 @@ model Vehicle {
   mileage     Int
   location    String
   description String
+  status      ApprovalStatus @default(PENDING)
+  approvedAt  DateTime?
   userId      String
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   images      Image[]
@@ -39,6 +54,18 @@ model Vehicle {
   @@index([price])
   @@index([location])
   @@index([userId])
+  @@index([status])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  message   String
+  isRead    Boolean  @default(false)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
 }
 
 model Image {
