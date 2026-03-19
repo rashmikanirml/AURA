@@ -19,9 +19,7 @@ export function RegisterForm() {
       name: String(formData.get("name") ?? ""),
       email: String(formData.get("email") ?? ""),
       password: String(formData.get("password") ?? ""),
-      adminInviteCode: isAdminRegistration
-        ? String(formData.get("adminInviteCode") ?? "")
-        : undefined,
+      isAdmin: isAdminRegistration,
     };
 
     const response = await fetch("/api/auth/register", {
@@ -53,16 +51,8 @@ export function RegisterForm() {
           checked={isAdminRegistration}
           onChange={(event) => setIsAdminRegistration(event.target.checked)}
         />
-        Register as admin (requires invite code)
+        Register as admin
       </label>
-      {isAdminRegistration ? (
-        <Input
-          name="adminInviteCode"
-          required
-          minLength={6}
-          placeholder="Admin invite code"
-        />
-      ) : null}
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
       <Button type="submit" disabled={loading}>
         {loading ? "Creating account..." : "Register"}
