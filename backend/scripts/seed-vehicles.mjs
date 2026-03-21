@@ -8,9 +8,17 @@ const demoSeller = {
   password: "demo-seeded-account",
 };
 
-const picsum = (id) => `https://picsum.photos/id/${id}/1200/800`;
+const carPhotoUrls = [
+  "https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&dpr=1",
+  "https://images.pexels.com/photos/210019/pexels-photo-210019.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&dpr=1",
+  "https://images.pexels.com/photos/244206/pexels-photo-244206.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&dpr=1",
+  "https://images.pexels.com/photos/248747/pexels-photo-248747.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&dpr=1",
+];
 
-const imageSet = (ids) => ids.map((id) => ({ imageUrl: picsum(id) }));
+const imageSet = (ids) =>
+  ids.map((seed, index) => ({
+    imageUrl: carPhotoUrls[(seed + index) % carPhotoUrls.length],
+  }));
 
 const vehiclePayloads = [
   {
