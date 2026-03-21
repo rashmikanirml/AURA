@@ -8,6 +8,10 @@ const demoSeller = {
   password: "demo-seeded-account",
 };
 
+const picsum = (id) => `https://picsum.photos/id/${id}/1200/800`;
+
+const imageSet = (ids) => ids.map((id) => ({ imageUrl: picsum(id) }));
+
 const vehiclePayloads = [
   {
     title: "Toyota Corolla Altis 1.8 G",
@@ -20,7 +24,7 @@ const vehiclePayloads = [
     description: "Single owner sedan, dealer maintained, excellent fuel average.",
     status: "APPROVED",
     approvedAt: new Date(),
-    images: [{ imageUrl: "https://picsum.photos/id/1071/1200/800" }],
+    images: imageSet([1071, 1072, 1070]),
   },
   {
     title: "Honda Civic Oriel 1.8 i-VTEC",
@@ -33,7 +37,7 @@ const vehiclePayloads = [
     description: "Top variant, push start, cruise control, spotless interior.",
     status: "APPROVED",
     approvedAt: new Date(),
-    images: [{ imageUrl: "https://picsum.photos/id/1073/1200/800" }],
+    images: imageSet([1073, 1074, 1076]),
   },
   {
     title: "Suzuki Wagon R VXL",
@@ -46,7 +50,7 @@ const vehiclePayloads = [
     description: "Economical city car with chilled AC and Android panel.",
     status: "APPROVED",
     approvedAt: new Date(),
-    images: [{ imageUrl: "https://picsum.photos/id/1074/1200/800" }],
+    images: imageSet([1077, 1078, 1079]),
   },
   {
     title: "Kia Sportage AWD",
@@ -59,7 +63,7 @@ const vehiclePayloads = [
     description: "Like new SUV, panoramic roof, full service history.",
     status: "APPROVED",
     approvedAt: new Date(),
-    images: [{ imageUrl: "https://picsum.photos/id/1075/1200/800" }],
+    images: imageSet([1081, 1082, 1083]),
   },
   {
     title: "Hyundai Elantra GLS",
@@ -72,7 +76,7 @@ const vehiclePayloads = [
     description: "Family sedan in immaculate condition with complete documents.",
     status: "APPROVED",
     approvedAt: new Date(),
-    images: [{ imageUrl: "https://picsum.photos/id/1081/1200/800" }],
+    images: imageSet([1084, 1080, 1069]),
   },
   {
     title: "MG HS Essence",
@@ -85,7 +89,7 @@ const vehiclePayloads = [
     description: "Premium crossover with adaptive cruise and lane assist.",
     status: "APPROVED",
     approvedAt: new Date(),
-    images: [{ imageUrl: "https://picsum.photos/id/1082/1200/800" }],
+    images: imageSet([1068, 1067, 1066]),
   },
   {
     title: "Toyota Yaris ATIV X CVT",
@@ -98,7 +102,7 @@ const vehiclePayloads = [
     description: "Comfortable city sedan, smooth CVT transmission, neat body.",
     status: "APPROVED",
     approvedAt: new Date(),
-    images: [{ imageUrl: "https://picsum.photos/id/1084/1200/800" }],
+    images: imageSet([1065, 1064, 1063]),
   },
   {
     title: "Changan Alsvin Lumiere",
@@ -111,7 +115,7 @@ const vehiclePayloads = [
     description: "Feature-packed compact sedan with sunroof and cruise control.",
     status: "APPROVED",
     approvedAt: new Date(),
-    images: [{ imageUrl: "https://picsum.photos/id/1080/1200/800" }],
+    images: imageSet([1062, 1061, 1060]),
   },
   {
     title: "Peugeot 2008 Active",
@@ -124,7 +128,7 @@ const vehiclePayloads = [
     description: "Imported crossover feel with modern cabin and strong road grip.",
     status: "APPROVED",
     approvedAt: new Date(),
-    images: [{ imageUrl: "https://picsum.photos/id/1062/1200/800" }],
+    images: imageSet([1059, 1058, 1057]),
   },
   {
     title: "Honda BR-V i-VTEC S",
@@ -137,7 +141,7 @@ const vehiclePayloads = [
     description: "7-seater family SUV, smooth suspension, first owner.",
     status: "APPROVED",
     approvedAt: new Date(),
-    images: [{ imageUrl: "https://picsum.photos/id/1067/1200/800" }],
+    images: imageSet([1056, 1055, 1054]),
   },
   {
     title: "Suzuki Swift GLX CVT",
@@ -150,7 +154,7 @@ const vehiclePayloads = [
     description: "Practically new hatchback with excellent fuel economy.",
     status: "APPROVED",
     approvedAt: new Date(),
-    images: [{ imageUrl: "https://picsum.photos/id/1050/1200/800" }],
+    images: imageSet([1053, 1052, 1051]),
   },
   {
     title: "Kia Stonic EX+",
@@ -163,7 +167,7 @@ const vehiclePayloads = [
     description: "Compact crossover, factory paint, full authorized maintenance.",
     status: "APPROVED",
     approvedAt: new Date(),
-    images: [{ imageUrl: "https://picsum.photos/id/1043/1200/800" }],
+    images: imageSet([1050, 1049, 1048]),
   },
   {
     title: "Hyundai Tucson GLS AWD",
@@ -176,7 +180,7 @@ const vehiclePayloads = [
     description: "Low mileage premium SUV, digital cluster, radar package.",
     status: "APPROVED",
     approvedAt: new Date(),
-    images: [{ imageUrl: "https://picsum.photos/id/1039/1200/800" }],
+    images: imageSet([1047, 1046, 1045]),
   },
   {
     title: "DFSK Glory 580 Pro",
@@ -189,7 +193,7 @@ const vehiclePayloads = [
     description: "Spacious 7-seater, leather interior, smooth turbo performance.",
     status: "APPROVED",
     approvedAt: new Date(),
-    images: [{ imageUrl: "https://picsum.photos/id/1024/1200/800" }],
+    images: imageSet([1044, 1043, 1042]),
   },
   {
     title: "Toyota Revo V 2.8",
@@ -202,7 +206,7 @@ const vehiclePayloads = [
     description: "Powerful pickup with 4x4 mode and pristine interior.",
     status: "APPROVED",
     approvedAt: new Date(),
-    images: [{ imageUrl: "https://picsum.photos/id/1011/1200/800" }],
+    images: imageSet([1041, 1040, 1039]),
   },
 ];
 
