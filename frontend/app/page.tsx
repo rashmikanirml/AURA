@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { AICarChat } from "@/app/components/ai-car-chat";
 import { SearchBar, type VehicleFilters } from "@/app/components/search-bar";
 import { VehicleList } from "@/app/components/vehicle-list";
 
@@ -16,6 +17,7 @@ export default function Home() {
         </p>
       </div>
 
+      <AICarChat />
       <SearchBar onSearch={setFilters} />
       <VehicleList filters={filters} />
     </section>
